@@ -1,6 +1,6 @@
 from src.extract.weather import WeatherAPI
 from src.extract.geocoding import GeocodingAPI
-from src.utils.common import save_to_json, list_files_from_dir, open_file
+from src.utils.common import save_json, list_files_from_dir, load_json
 
 def extract_coordinates(g:GeocodingAPI, location):
     IMP_DIRNAME = 'data/raw/locations'
@@ -11,7 +11,7 @@ def extract_coordinates(g:GeocodingAPI, location):
 
         if data:
             filename = f'{location.lower()}.json'
-            save_to_json(data, IMP_DIRNAME, filename)
+            save_json(data, IMP_DIRNAME, filename)
             g.logger.info(f'Coordinates for {location} has been extracted successfully.')
 
     except Exception:
@@ -27,7 +27,7 @@ def process_coordinates(g:GeocodingAPI, location):
         g.logger.info(f'Coordinates for {location} have already been extracted.')
 
     path = IMP_DIRNAME + f'/{location.lower()}.json'
-    data = open_file(path)
+    data = load_json(path)
     try:
         results = data['results'][0]
         latitude = results['latitude']

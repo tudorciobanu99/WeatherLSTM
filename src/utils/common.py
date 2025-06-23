@@ -6,7 +6,7 @@ def now():
     timestamp = datetime.now().timestamp()
     return timestamp
 
-def save_to_json(data, dirname, filename):
+def save_json(data, dirname, filename):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     
@@ -21,7 +21,7 @@ def list_files_from_dir(dirname):
             files.append(os.path.join(root, filename))
     return files
 
-def open_file(filename):
+def load_json(filename):
     try:
         with open(filename, 'r', encoding='utf-8') as infile:
             data = json.load(infile)
