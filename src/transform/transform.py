@@ -21,16 +21,18 @@ def process_file(filename, logger):
             'sunshine_duration': results['sunshine_duration'],
         }
         df = pd.DataFrame(data)
-        print(df)
         return df
     except KeyError as e:
         logger.warning(e)
 
 def transform(logger):
     IMP_DIRNAME = 'data/raw/weather'
+    EXP_DIRNAME = 'data/processed/'
 
     files = list_files_from_dir(IMP_DIRNAME)
     for file in files:
-        process_file(file, logger)
+        df = process_file(file, logger)
+        filename = file.split('/')[-1].split('.')[0] + '.csv'
+        df.to_csv(EXP_DIRNAME + filename, index=False)
     logger.info(f'All files from {IMP_DIRNAME} were transformed!')
     
