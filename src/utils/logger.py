@@ -4,12 +4,13 @@ from datetime import datetime
 
 class Logger():
     def __init__(self, name):
-        self.logger = logging.getLogger(name)
+        self.name = name
+        self.logger = logging.getLogger(self.name)
         self._set_file_handler()
 
     def _set_file_handler(self):
         os.makedirs('logs', exist_ok=True)
-        filename = f'logs/{datetime.now().strftime('%Y-%m-%d')}.log'
+        filename = f'logs/{datetime.now().strftime('%Y-%m-%d')}_{self.name}.log'
         fileHandler = logging.FileHandler(filename)
         fileHandler.setLevel(logging.INFO)
         fileHandler.setFormatter(self._get_formatter())

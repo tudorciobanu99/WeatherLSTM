@@ -11,7 +11,7 @@ class WeatherAPI:
             + '&'.join([f'{key}={value}' for key, value in params.items()])
         return url
 
-    def prepare_params(self, latitude, longitude, start_date, end_date, timezone):
+    def prepare_params(self, latitude, longitude, elevation, timezone, start_date, end_date):
         quantities = ["temperature_2m", "relative_humidity_2m", "dew_point_2m", 
                       "apparent_temperature", "precipitation", "rain", 
                       "snowfall", "snow_depth", "wind_speed_10m", 
@@ -34,12 +34,13 @@ class WeatherAPI:
             'start_date': start_date,
             'end_date': end_date,
             'hourly': ','.join(quantities),
-            'timezone': timezone
+            'timezone': timezone,
+            'elevation': elevation,
         }
         return params
     
-    def send_request(self, latitude, longitude, start_date, end_date, timezone):
-        params = self.prepare_params(latitude, longitude, start_date, end_date, timezone)
+    def send_request(self, latitude, longitude, elevation, timezone, start_date, end_date):
+        params = self.prepare_params(latitude, longitude, elevation, timezone, start_date, end_date)
         url = self.get_endpoint(**params)
 
         try:
