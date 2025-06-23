@@ -13,6 +13,6 @@ g = GeocodingAPI(l_e)
 
 locations = ['London', 'Paris', 'Kyiv']
 
-extract(w, g, locations, '2020-02-01', '2020-02-02')
+extract(w, g, locations, '2020-02-02', '2020-02-03')
 transform(l_t.get_logger())
 load('src/database/weather.duckdb', l_l.get_logger())

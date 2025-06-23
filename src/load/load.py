@@ -1,5 +1,6 @@
 from src.utils.common import list_files_from_dir
 import duckdb
+import pandas as pd
 
 def prepare_db(db_name):
     conn = duckdb.connect(db_name)
@@ -31,7 +32,16 @@ def load(db_name, logger):
         prepare_db(db_name)
         conn = duckdb.connect(db_name)
         for file in files:
-            conn.execute(f"COPY weather_data FROM '{file}' (AUTO_DETECT TRUE);")
+            df = pd.read_csv(file)
+            conn.register("df_view", df)
+            conn.execute("""
+                INSERT INTO weather_data
+                SELECT df.*
+                FROM df_view df
+                LEFT JOIN weather_data wd
+                ON df.location = wd.location AND df.time = wd.time
+                WHERE wd.location IS NULL
+            """)
         conn.close()
         logger.info('Successfuly inserted new records into weather data table.')
     except Exception as e:
