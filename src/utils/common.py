@@ -28,3 +28,6 @@ def load_json(filename):
             return data
     except (FileNotFoundError, json.JSONDecodeError):
         pass
+
+def today():
+    return datetime.now()

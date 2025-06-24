@@ -1,5 +1,6 @@
 from src.extract.weather import WeatherAPI
 from src.extract.geocoding import GeocodingAPI
+from src.utils.logger import Logger
 from src.extract.geoextraction import process_coordinates
 from src.utils.common import save_json
 
@@ -22,3 +23,10 @@ def extract(w:WeatherAPI, g:GeocodingAPI, locations, start_date, end_date):
         except Exception:
             w.logger.warning(f'Weather data for {location} and ({start_date},{end_date})'
                             + ' has failed extraction!')
+            
+def run_extract(locations, start_date, end_date):
+    logger = Logger('extract')
+    w = WeatherAPI(logger)
+    g = WeatherAPI(logger)
+    
+    extract(w, g, locations, start_date, end_date)

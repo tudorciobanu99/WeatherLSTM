@@ -1,4 +1,5 @@
 from src.utils.common import list_files_from_dir
+from src.utils.logger import Logger
 import duckdb
 import pandas as pd
 
@@ -46,3 +47,7 @@ def load(db_name, logger):
         logger.info('Successfuly inserted new records into weather data table.')
     except Exception as e:
         logger.warning(f'Error inserting new records into weather_data table! Error: {e}')
+
+def run_load(db_name):
+    logger = Logger('load')
+    load(db_name, logger.get_logger())

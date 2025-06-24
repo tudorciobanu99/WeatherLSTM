@@ -35,4 +35,9 @@ def transform(logger):
         filename = file.split('/')[-1].split('.')[0] + '.csv'
         df.to_csv(EXP_DIRNAME + filename, index=False)
     logger.info(f'All files from {IMP_DIRNAME} were transformed!')
+
+def run_transform():
+    logger = Logger('transform')
+
+    transform(logger.get_logger())
     
